@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "galaxy-movies/embed",
+  "title": "Galaxy Movies",
+  "description": "Daily-updated streaming arrivals & departures for US services.",
+  "category": "embed",
+  "icon": "format-video",
+  "keywords": ["streaming", "netflix", "movies", "tv"],
+  "attributes": {
+    "provider": { "type": "string", "default": "netflix" },
+    "theme": { "type": "string", "default": "dark" },
+    "kind": { "type": "string", "default": "changes" },
+    "height": { "type": "number", "default": 380 }
+  },
+  "supports": { "html": false },
+  "editorScript": [
+    "file:./index.js",
+    "wp-blocks",
+    "wp-element",
+    "wp-i18n",
+    "wp-components",
+    "wp-block-editor",
+    "wp-server-side-render"
+  ],
+  "textdomain": "galaxy-movies-embeds"
+}
