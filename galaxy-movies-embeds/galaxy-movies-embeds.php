@@ -11,6 +11,8 @@
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       galaxy-movies-embeds
+ *
+ * @package galaxy-movies-embeds
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -20,7 +22,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'GME_VERSION', '1.0.0' );
 define( 'GME_EMBED_BASE', 'https://www.galaxymovies.app/embed/' );
 
-// Mirrors embeddableProviders() — US services whose diffs carry coming-soon data.
+/**
+ * Embeddable providers — mirrors embeddableProviders(): US services whose
+ * diffs carry coming-soon data.
+ *
+ * @return array<string,string> Provider key => display label.
+ */
 function gme_providers() {
 	return array(
 		'netflix'            => 'Netflix',
@@ -46,6 +53,12 @@ function gme_providers() {
 	);
 }
 
+/**
+ * Renders the embed iframe for the [galaxy] shortcode and the block.
+ *
+ * @param array<string,mixed> $atts Shortcode/block attributes.
+ * @return string
+ */
 function gme_render_embed( $atts ) {
 	$atts = shortcode_atts(
 		array(
@@ -64,12 +77,12 @@ function gme_render_embed( $atts ) {
 	$height   = min( 900, max( 200, absint( $atts['height'] ) ) );
 
 	if ( 'churn' !== $kind && ! isset( gme_providers()[ $provider ] ) ) {
-		$msg  = sprintf(
+		$msg = sprintf(
 			/* translators: %s: the provider attribute value that failed validation */
 			__( 'Galaxy Movies embed: unknown provider "%s".', 'galaxy-movies-embeds' ),
 			$provider
 		);
-		$out  = '<!-- ' . esc_html( $msg ) . ' -->';
+		$out = '<!-- ' . esc_html( $msg ) . ' -->';
 		if ( current_user_can( 'edit_posts' ) ) {
 			$out .= sprintf(
 				'<p style="padding:12px;border:1px dashed #c00;color:#c00">%s %s</p>',
@@ -95,8 +108,10 @@ function gme_render_embed( $atts ) {
 
 add_shortcode( 'galaxy', 'gme_render_embed' );
 
-// Server-rendered block: attrs map 1:1 onto the shortcode's, so the same
-// renderer covers both and the editor preview needs no JS rendering logic.
+/**
+ * Registers the server-rendered block. Attrs map 1:1 onto the shortcode's,
+ * so the same renderer covers both and the editor needs no JS render logic.
+ */
 function gme_register_block() {
 	register_block_type(
 		__DIR__ . '/block',
